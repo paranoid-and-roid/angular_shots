@@ -4,12 +4,14 @@ var services = angular.module("dabbble.services", []);
 
 services.factory("dribbble", function($http) {
     function load(path, params) {
-        return $http.jsonp("http://api.dribbble.com" + path + "?callback=JSON_CALLBACK");
+        params = params || {};
+        params.callback = "JSON_CALLBACK";
+        return $http.jsonp("http://api.dribbble.com" + path, {params:params});
     }
 
     return {
-        list: function(type) {
-        return load("/shots/" + type);
+        list: function(type, params) {
+        return load("/shots/" + type, params);
         },
         shot: function(id) {
             return load("/shots/" + id);
